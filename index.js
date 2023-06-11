@@ -4,7 +4,9 @@ const server = express();
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const { createProduct } = require('./controller/ProductController');
-const productsRouter=require('./routes/ProductRoute')
+const productsRouter=require('./routes/ProductRoute');
+const brandsRouter=require('./routes/BrandRoute');
+const categoryRoute=require('./routes/CategoryRoute');
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 
@@ -30,7 +32,9 @@ run().catch((err)=> console.log(err));
 
 
 server.use(express.json());
-server.use('/products',productsRouter.router)
+server.use('/products',productsRouter.router);
+server.use('/category',categoryRoute.router);
+server.use('/brand',brandsRouter.router);
 
 
 server.listen(8000,()=> console.log('server started'))
