@@ -3,11 +3,13 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 const server = express();
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
+const cors=require('cors')
 const { createProduct } = require('./controller/ProductController');
 const productsRouter=require('./routes/ProductRoute');
 const brandsRouter=require('./routes/BrandRoute');
 const categoryRoute=require('./routes/CategoryRoute');
-
+const userRouter = require('./routes/UsersRouter');
+const authRouter = require('./routes/Auth');
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 
 dotenv.config();
@@ -30,11 +32,16 @@ async function run() {
 }
 run().catch((err)=> console.log(err));
 
+server.use(cors({
+    exposedHeaders:['X-Total-Count']
+}))
 
 server.use(express.json());
 server.use('/products',productsRouter.router);
 server.use('/category',categoryRoute.router);
 server.use('/brand',brandsRouter.router);
+server.use('/users',userRouter.router);
+server.use('/auth',authRouter.router);
 
 
 server.listen(8000,()=> console.log('server started'))
